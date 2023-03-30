@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
             return SplashScreen();
           } else {
             return GetMaterialApp(
-                title: 'Flutter Demo',
+                title: 'Absensi',
                 theme: ThemeData(
                   primarySwatch: Colors.blue,
                 ),

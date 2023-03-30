@@ -11,7 +11,7 @@ class HomeController extends GetxController {
   void onInit() async {
     // TODO: implement onInit
 
-    await getPrecense('');
+    await getPrecense('today');
     super.onInit();
   }
 

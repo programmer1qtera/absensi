@@ -61,6 +61,7 @@ class DetailPrecenseInView extends StatelessWidget {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: CachedNetworkImage(
+                                    filterQuality: FilterQuality.medium,
                                     fit: BoxFit.cover,
                                     imageUrl:
                                         '${dotenv.env['API_BASE_URL']}/files/users/$userId/${controller.detailPrecenseModel!.data.fotoIn}',
@@ -77,67 +78,67 @@ class DetailPrecenseInView extends StatelessWidget {
                               SizedBox(
                                 width: 20,
                               ),
-                              Expanded(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.grey.shade300),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(5),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            '${controller.detailPrecenseModel?.data.fotoIn}',
-                                            style:
-                                                TextStyle(color: Colors.grey),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        controller.isLoadingDownload.value ==
-                                                true
-                                            ? Container(
-                                                height: 25,
-                                                width: 25,
-                                                child: Stack(
-                                                  children: [
-                                                    Center(
-                                                        child:
-                                                            CircularProgressIndicator()),
-                                                    Center(
-                                                      child: Text(
-                                                        '${controller.countDownload.value}',
-                                                        style: TextStyle(
-                                                            fontSize: 10,
-                                                            color: Colors.grey),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              )
-                                            : InkWell(
-                                                onTap: () => controller
-                                                    .downloadImg(controller
-                                                        .detailPrecenseModel!
-                                                        .data
-                                                        .fotoIn),
-                                                child: Icon(
-                                                  Icons.download,
-                                                  color: Colors.grey,
-                                                ),
-                                              )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              // Expanded(
+                              //   child: Container(
+                              //     decoration: BoxDecoration(
+                              //         border: Border.all(
+                              //             color: Colors.grey.shade300),
+                              //         borderRadius: BorderRadius.circular(10)),
+                              //     child: Padding(
+                              //       padding: const EdgeInsets.all(5),
+                              //       child: Row(
+                              //         mainAxisAlignment:
+                              //             MainAxisAlignment.spaceBetween,
+                              //         crossAxisAlignment:
+                              //             CrossAxisAlignment.center,
+                              //         children: [
+                              //           Expanded(
+                              //             child: Text(
+                              //               '${controller.detailPrecenseModel?.data.fotoIn}',
+                              //               style:
+                              //                   TextStyle(color: Colors.grey),
+                              //             ),
+                              //           ),
+                              //           SizedBox(
+                              //             width: 10,
+                              //           ),
+                              //           controller.isLoadingDownload.value ==
+                              //                   true
+                              //               ? Container(
+                              //                   height: 25,
+                              //                   width: 25,
+                              //                   child: Stack(
+                              //                     children: [
+                              //                       Center(
+                              //                           child:
+                              //                               CircularProgressIndicator()),
+                              //                       Center(
+                              //                         child: Text(
+                              //                           '${controller.countDownload.value}',
+                              //                           style: TextStyle(
+                              //                               fontSize: 10,
+                              //                               color: Colors.grey),
+                              //                         ),
+                              //                       ),
+                              //                     ],
+                              //                   ),
+                              //                 )
+                              //               : InkWell(
+                              //                   onTap: () => controller
+                              //                       .downloadImg(controller
+                              //                           .detailPrecenseModel!
+                              //                           .data
+                              //                           .fotoIn),
+                              //                   child: Icon(
+                              //                     Icons.download,
+                              //                     color: Colors.grey,
+                              //                   ),
+                              //                 )
+                              //         ],
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
@@ -155,7 +156,8 @@ class DetailPrecenseInView extends StatelessWidget {
                           ),
                           DetailDescription(
                             name: 'Role',
-                            description: '-',
+                            description:
+                                '${controller.detailPrecenseModel!.data.employee.position}',
                             width: 149,
                           ),
                           DetailDescription(

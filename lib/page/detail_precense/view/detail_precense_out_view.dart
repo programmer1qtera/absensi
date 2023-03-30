@@ -43,7 +43,8 @@ class DetailPrecenseOutView extends StatelessWidget {
                           ),
                           DetailDescription(
                             name: 'Role',
-                            description: '-',
+                            description:
+                                '${controller.detailPrecenseModel!.data.employee.position}',
                             width: 149,
                           ),
                           DetailDescription(
@@ -121,7 +122,7 @@ class DetailPrecenseOutView extends StatelessWidget {
                                 height: 67,
                                 width: 67,
                                 decoration: BoxDecoration(
-                                  color: Colors.black,
+                                  color: Colors.grey.shade400,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: controller.detailPrecenseModel!.data
@@ -132,6 +133,7 @@ class DetailPrecenseOutView extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(10),
                                         child: CachedNetworkImage(
                                           fit: BoxFit.cover,
+                                          filterQuality: FilterQuality.medium,
                                           imageUrl:
                                               '${dotenv.env['API_BASE_URL']}/files/users/$userId/${controller.detailPrecenseModel!.data.fotoOut}',
                                           placeholder: (context, url) => Center(
@@ -148,84 +150,84 @@ class DetailPrecenseOutView extends StatelessWidget {
                               SizedBox(
                                 width: 20,
                               ),
-                              Expanded(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.grey.shade300),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(5),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            '${controller.detailPrecenseModel!.data.fotoOut == null ? '-' : controller.detailPrecenseModel!.data.fotoOut}',
-                                            style:
-                                                TextStyle(color: Colors.grey),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        controller.isLoadingDownloadOut.value ==
-                                                true
-                                            ? Container(
-                                                height: 25,
-                                                width: 25,
-                                                child: Stack(
-                                                  children: [
-                                                    Center(
-                                                        child:
-                                                            CircularProgressIndicator()),
-                                                    Center(
-                                                      child: Text(
-                                                        '${controller.countDownloadOut.value}',
-                                                        style: TextStyle(
-                                                            fontSize: 10,
-                                                            color: Colors.grey),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              )
-                                            : InkWell(
-                                                onTap: () => controller
-                                                            .detailPrecenseModel
-                                                            ?.data
-                                                            .fotoOut ==
-                                                        null
-                                                    ? Fluttertoast.showToast(
-                                                        msg: 'File Tidak Ada',
-                                                        gravity:
-                                                            ToastGravity.CENTER)
-                                                    : controller.isLoadingDownloadOut
-                                                                .value ==
-                                                            true
-                                                        ? Fluttertoast
-                                                            .showToast(
-                                                                msg:
-                                                                    'Tunggu...',
-                                                                gravity:
-                                                                    ToastGravity
-                                                                        .CENTER)
-                                                        : controller.downloadImgOut(
-                                                            controller
-                                                                .detailPrecenseModel!
-                                                                .data
-                                                                .fotoOut),
-                                                child: Icon(
-                                                  Icons.download,
-                                                  color: Colors.grey,
-                                                ),
-                                              )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              // Expanded(
+                              //   child: Container(
+                              //     decoration: BoxDecoration(
+                              //         border: Border.all(
+                              //             color: Colors.grey.shade300),
+                              //         borderRadius: BorderRadius.circular(10)),
+                              //     child: Padding(
+                              //       padding: const EdgeInsets.all(5),
+                              //       child: Row(
+                              //         mainAxisAlignment:
+                              //             MainAxisAlignment.spaceBetween,
+                              //         children: [
+                              //           Expanded(
+                              //             child: Text(
+                              //               '${controller.detailPrecenseModel!.data.fotoOut == null ? '-' : controller.detailPrecenseModel!.data.fotoOut}',
+                              //               style:
+                              //                   TextStyle(color: Colors.grey),
+                              //             ),
+                              //           ),
+                              //           SizedBox(
+                              //             width: 10,
+                              //           ),
+                              //           controller.isLoadingDownloadOut.value ==
+                              //                   true
+                              //               ? Container(
+                              //                   height: 25,
+                              //                   width: 25,
+                              //                   child: Stack(
+                              //                     children: [
+                              //                       Center(
+                              //                           child:
+                              //                               CircularProgressIndicator()),
+                              //                       Center(
+                              //                         child: Text(
+                              //                           '${controller.countDownloadOut.value}',
+                              //                           style: TextStyle(
+                              //                               fontSize: 10,
+                              //                               color: Colors.grey),
+                              //                         ),
+                              //                       ),
+                              //                     ],
+                              //                   ),
+                              //                 )
+                              //               : InkWell(
+                              //                   onTap: () => controller
+                              //                               .detailPrecenseModel
+                              //                               ?.data
+                              //                               .fotoOut ==
+                              //                           null
+                              //                       ? Fluttertoast.showToast(
+                              //                           msg: 'File Tidak Ada',
+                              //                           gravity:
+                              //                               ToastGravity.CENTER)
+                              //                       : controller.isLoadingDownloadOut
+                              //                                   .value ==
+                              //                               true
+                              //                           ? Fluttertoast
+                              //                               .showToast(
+                              //                                   msg:
+                              //                                       'Tunggu...',
+                              //                                   gravity:
+                              //                                       ToastGravity
+                              //                                           .CENTER)
+                              //                           : controller.downloadImgOut(
+                              //                               controller
+                              //                                   .detailPrecenseModel!
+                              //                                   .data
+                              //                                   .fotoOut),
+                              //                   child: Icon(
+                              //                     Icons.download,
+                              //                     color: Colors.grey,
+                              //                   ),
+                              //                 )
+                              //         ],
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
