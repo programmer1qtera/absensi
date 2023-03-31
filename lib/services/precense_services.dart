@@ -22,10 +22,13 @@ class PrecenseServices {
         '${dotenv.env['API_BASE_URL']}/mobile/absencies?date=$filter');
 
     final response = await http.get(url, headers: {'x-access-token': tokens});
+    print('response precense ${response.statusCode}');
     if (response.statusCode == 200) {
       return PrecenseModel.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception();
+      await box.erase();
+      Get.offAll(LoginView());
+      Fluttertoast.showToast(msg: 'Silakan Login Kembali');
     }
   }
 

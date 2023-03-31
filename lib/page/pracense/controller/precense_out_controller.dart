@@ -36,7 +36,8 @@ class PrecenseOutController extends GetxController {
     try {
       Map<String, dynamic> getLocation = await determinePosition();
       if (getLocation['error'] != true) {
-        filePick = await _picker.pickImage(source: ImageSource.camera);
+        filePick = await _picker.pickImage(
+            source: ImageSource.camera, imageQuality: 20);
         position = getLocation['position'];
         List<Placemark> placeMarks = await placemarkFromCoordinates(
             position!.latitude, position!.longitude);

@@ -7,6 +7,7 @@ import 'package:absensi/page/pracense/view/confirm_picture_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -38,6 +39,7 @@ class PrecenseController extends GetxController {
   // String? dropDownVal2;
   var isLoading = false.obs;
   XFile? filePick;
+  File? imageResult;
   String? nameFile;
   Position? position;
   bool? isFakeGps;
@@ -56,7 +58,8 @@ class PrecenseController extends GetxController {
     try {
       Map<String, dynamic> getLocation = await determinePosition();
       if (getLocation['error'] != true) {
-        filePick = await _picker.pickImage(source: ImageSource.camera);
+        filePick = await _picker.pickImage(
+            source: ImageSource.camera, imageQuality: 20);
         position = getLocation['position'];
         if (filePick?.path != null) {
           List<Placemark> placeMarks = await placemarkFromCoordinates(
@@ -70,9 +73,9 @@ class PrecenseController extends GetxController {
           isFakeGps = position!.isMocked;
           print(isFakeGps);
           update();
+          // await compress(filePick!);
           nameFile = filePick!.name;
           print(nameFile);
-
           Get.to(ConfirmPictureView());
           isLoading.value = false;
         } else {
@@ -99,6 +102,16 @@ class PrecenseController extends GetxController {
     }
   }
 
+  // Future<void> compress(XFile imageFile) async {
+  //   File fileImage = File(imageFile.path);
+  //   var comprefile = await FlutterImageCompress.compressAndGetFile(
+  //       fileImage.absolute.path, fileImage.path,
+  //       quality: 20);
+  //   imageResult = comprefile;
+  //   update();
+  //   print('Result Image ${imageResult}');
+  // }
+
   Future<dynamic> uploadData(context) async {
     isLoading(true);
     final box = GetStorage();
@@ -107,9 +120,9 @@ class PrecenseController extends GetxController {
     final url = Uri.parse('${dotenv.env['API_BASE_URL']}/mobile/absencies');
 
     try {
-      var stream = http.ByteStream(filePick!.openRead());
+      var stream = http.ByteStream(imageResult!.openRead());
       stream.cast();
-      var lenght = await filePick!.length();
+      var lenght = await imageResult!.length();
 
       var multipart =
           http.MultipartFile('foto', stream, lenght, filename: filePick!.name);

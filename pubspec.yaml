@@ -49,6 +49,7 @@ dependencies:
   flutter_dotenv: ^5.0.2
   path_provider: ^2.0.14
   dio: ^5.1.0
+  flutter_image_compress: ^1.1.3
   
 
 dev_dependencies:

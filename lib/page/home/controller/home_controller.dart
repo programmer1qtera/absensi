@@ -23,23 +23,17 @@ class HomeController extends GetxController {
     isLoading(true);
     final box = GetStorage();
     var userDataLocal = box.read('userData');
-    try {
-      var _dataPrecense = await PrecenseServices.precenseModel(filter);
 
-      if (_dataPrecense != null) {
-        precenseModel = _dataPrecense;
-        print(precenseModel!.data.absensi[0].hariAbsen);
-        isLoading(false);
-        userName = userDataLocal['name'];
-      } else {
-        Get.offAll(LoginView());
-        isLoading(false);
-        box.erase();
-        Fluttertoast.showToast(msg: 'Silahkan Login Kembali');
-      }
-    } catch (e) {
-      await box.erase();
-      Get.to(LoginView());
+    var _dataPrecense = await PrecenseServices.precenseModel(filter);
+
+    if (_dataPrecense != null) {
+      precenseModel = _dataPrecense;
+      // print(precenseModel!.data.absensi[0].hariAbsen);
+      isLoading(false);
+      userName = userDataLocal['name'];
+    } else {
+      isLoading(false);
+      print('data precense nuul');
     }
   }
 

@@ -62,6 +62,7 @@ class DetailPrecenseInView extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10),
                                   child: CachedNetworkImage(
                                     filterQuality: FilterQuality.medium,
+                                
                                     fit: BoxFit.cover,
                                     imageUrl:
                                         '${dotenv.env['API_BASE_URL']}/files/users/$userId/${controller.detailPrecenseModel!.data.fotoIn}',
