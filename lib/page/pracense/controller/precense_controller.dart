@@ -34,7 +34,7 @@ class PrecenseController extends GetxController {
 
   final ImagePicker _picker = ImagePicker();
   List<DropdownMenuEntry> menuEntry = [];
-  List<String> listDrop = <String>['Metting', 'POC', 'Presentasi', 'ELSA'];
+  List<String> listDrop = <String>['Meeting', 'POC', 'Presentasi', 'ELSA'];
   String dropDownVal = 'Pilih';
   // String? dropDownVal2;
   var isLoading = false.obs;
@@ -120,9 +120,9 @@ class PrecenseController extends GetxController {
     final url = Uri.parse('${dotenv.env['API_BASE_URL']}/mobile/absencies');
 
     try {
-      var stream = http.ByteStream(imageResult!.openRead());
+      var stream = http.ByteStream(filePick!.openRead());
       stream.cast();
-      var lenght = await imageResult!.length();
+      var lenght = await filePick!.length();
 
       var multipart =
           http.MultipartFile('foto', stream, lenght, filename: filePick!.name);
@@ -175,9 +175,10 @@ class PrecenseController extends GetxController {
       });
     } catch (e) {
       Fluttertoast.showToast(
-          msg: 'Gagal Absen Silakan Absen Ulang Kembali',
+          msg: 'Gagal Absen Silakan Absen Ulang Kembali $e',
           gravity: ToastGravity.CENTER);
       Get.offAll(MainPage());
+      print(e);
       isLoading(false);
     }
 

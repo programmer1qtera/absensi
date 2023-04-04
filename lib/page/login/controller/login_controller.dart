@@ -59,8 +59,8 @@ class LoginController extends GetxController {
       print(e);
       Fluttertoast.showToast(msg: 'Cek Koneksi', gravity: ToastGravity.CENTER);
       // Get.back();
-      throw Exception();
       isLoading(false);
+      throw Exception();
     }
   }
 }
