@@ -150,9 +150,9 @@ class ProfileView extends GetView<ProfileController> {
                                 side: BorderSide(color: Colors.blue)),
                             shadowColor: Colors.white.withOpacity(0),
                             primary: Colors.white),
-                        onPressed: () async {
+                        onPressed: () {
                           final box = GetStorage();
-                          await box.erase();
+                          box.erase();
                           Get.offAll(LoginView());
                         },
                         child: Text(

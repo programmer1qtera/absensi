@@ -119,8 +119,8 @@ class DetailPrecenseOutView extends StatelessWidget {
                           child: Row(
                             children: [
                               Container(
-                                height: 67,
-                                width: 67,
+                                height: 200,
+                                width: MediaQuery.of(context).size.width / 1.3,
                                 decoration: BoxDecoration(
                                   color: Colors.grey.shade400,
                                   borderRadius: BorderRadius.circular(10),

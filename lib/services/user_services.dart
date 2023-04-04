@@ -20,6 +20,8 @@ class UserServices {
       print(response.statusCode);
       return UserModel.fromJson(jsonDecode(response.body));
     } else {
+      box.erase();
+      Get.offAll(LoginView());
       throw Exception();
     }
   }

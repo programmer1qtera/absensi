@@ -61,6 +61,7 @@ class DetailPrecenseView extends StatelessWidget {
           ],
         ),
       ),
+    
     );
   }
 }

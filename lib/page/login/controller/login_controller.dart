@@ -23,7 +23,8 @@ class LoginController extends GetxController {
     isLoading(true);
     try {
       if (usernameC.text != '' || passwordC.text != '') {
-        final url = Uri.parse('${dotenv.env['API_BASE_URL']}/auth/sign-in');
+        final url =
+            Uri.parse('${dotenv.env['API_BASE_URL']}/auth/mobile/sign-in');
         final response = await http.post(url,
             headers: {"Content-Type": 'application/json'},
             body: jsonEncode({
@@ -58,6 +59,7 @@ class LoginController extends GetxController {
       print(e);
       Fluttertoast.showToast(msg: 'Cek Koneksi', gravity: ToastGravity.CENTER);
       // Get.back();
+      throw Exception();
       isLoading(false);
     }
   }

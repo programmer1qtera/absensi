@@ -29,6 +29,7 @@ class PrecenseServices {
       await box.erase();
       Get.offAll(LoginView());
       Fluttertoast.showToast(msg: 'Silakan Login Kembali');
+      throw Exception();
     }
   }
 

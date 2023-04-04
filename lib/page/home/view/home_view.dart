@@ -114,212 +114,206 @@ class HomeView extends GetView<HomeController> {
             ? Center(
                 child: CircularProgressIndicator(),
               )
-            : controller.precenseModel?.data.absensi.length == null ||
-                    controller.precenseModel?.data.absensi.length == 0
-                ? Center(
-                    child: Text(
-                      'Belum Melakukan Aktifitas Absen',
-                      style: TextStyle(color: Color(0xff0170B9)),
-                    ),
-                  )
-                : Stack(
-                    children: [
-                      SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 60,
-                            ),
-                            ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount:
-                                  controller.precenseModel?.data.absensi.length,
-                              itemBuilder: (context, index) {
-                                var dataItem = controller
-                                    .precenseModel?.data.absensi[index];
-                                return InkWell(
-                                    onTap: () async {
-                                      await controller4
-                                          .getDetailPrecense(dataItem!.id);
-                                    },
-                                    child: ItemAbsen(
-                                      dataItemAbsensi: dataItem,
-                                    ));
-                              },
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(top: 2),
-                        color: Colors.white,
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            : Stack(
+                children: [
+                  controller.precenseModel?.data.absensi.length == null ||
+                          controller.precenseModel?.data.absensi.length == 0
+                      ? Center(
+                          child: Text(
+                            'Belum Melakukan Aktifitas Absen',
+                            style: TextStyle(color: Color(0xff0170B9)),
+                          ),
+                        )
+                      : SingleChildScrollView(
+                          child: Column(
                             children: [
-                              Row(
-                                children: [
-                                  Text(
-                                      '${controller.precenseModel?.data.total}'),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text('Total Data'),
-                                ],
+                              SizedBox(
+                                height: 60,
                               ),
-                              InkWell(
-                                onTap: () {
-                                  showModalBottomSheet(
-                                    elevation: 15,
-                                    backgroundColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(20),
-                                            topRight: Radius.circular(20))),
-                                    context: context,
-                                    builder: (_) => Container(
-                                      height: 260,
-                                      width: double.infinity,
-                                      padding: EdgeInsets.only(
-                                          left: 32, top: 8, right: 32),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: 50,
-                                            height: 5,
-                                            decoration: BoxDecoration(
-                                                color: Colors.grey[400],
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                          ),
-                                          SizedBox(
-                                            height: 25,
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              controller.getPrecense('');
-                                              Get.back();
-                                            },
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 10, bottom: 10),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'Semua',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              controller.getPrecense('today');
-                                              Get.back();
-                                            },
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 10, bottom: 10),
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    'Hari ini',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              controller
-                                                  .getPrecense('last1week');
-                                              Get.back();
-                                            },
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 10, bottom: 10),
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    '1 Minggu Terakhir',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              controller
-                                                  .getPrecense('last1month');
-                                              Get.back();
-                                            },
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 10, bottom: 10),
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    '1 Bulan Terakir',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: controller
+                                    .precenseModel?.data.absensi.length,
+                                itemBuilder: (context, index) {
+                                  var dataItem = controller
+                                      .precenseModel?.data.absensi[index];
+                                  return InkWell(
+                                      onTap: () async {
+                                        await controller4
+                                            .getDetailPrecense(dataItem!.id);
+                                      },
+                                      child: ItemAbsen(
+                                        dataItemAbsensi: dataItem,
+                                      ));
                                 },
-                                child: Container(
-                                  height: 36,
-                                  width: 154,
-                                  decoration: BoxDecoration(
-                                      color: Color(0xffEFF3F8),
-                                      borderRadius: BorderRadius.circular(6),
-                                      border:
-                                          Border.all(color: Color(0xff0170B9))),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: const [
-                                      Text(
-                                        'Jangka Waktu',
-                                        style:
-                                            TextStyle(color: Color(0xff0170B9)),
-                                      ),
-                                      Icon(
-                                        Icons.arrow_drop_down,
-                                        color: Color(0xff0170B9),
-                                      )
-                                    ],
-                                  ),
-                                ),
                               )
                             ],
                           ),
                         ),
+                  Container(
+                    padding: EdgeInsets.only(top: 2),
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Text('${controller.precenseModel?.data.total}'),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text('Total Data'),
+                            ],
+                          ),
+                          InkWell(
+                            onTap: () {
+                              showModalBottomSheet(
+                                elevation: 15,
+                                backgroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20))),
+                                context: context,
+                                builder: (_) => Container(
+                                  height: 260,
+                                  width: double.infinity,
+                                  padding: EdgeInsets.only(
+                                      left: 32, top: 8, right: 32),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        width: 50,
+                                        height: 5,
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey[400],
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                      ),
+                                      SizedBox(
+                                        height: 25,
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          controller.getPrecense('');
+                                          Get.back();
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 10, bottom: 10),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Semua',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          controller.getPrecense('today');
+                                          Get.back();
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 10, bottom: 10),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                'Hari ini',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          controller.getPrecense('last1week');
+                                          Get.back();
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 10, bottom: 10),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                '1 Minggu Terakhir',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          controller.getPrecense('last1month');
+                                          Get.back();
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 10, bottom: 10),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                '1 Bulan Terakir',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              height: 36,
+                              width: 154,
+                              decoration: BoxDecoration(
+                                  color: Color(0xffEFF3F8),
+                                  borderRadius: BorderRadius.circular(6),
+                                  border: Border.all(color: Color(0xff0170B9))),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Text(
+                                    'Jangka Waktu',
+                                    style: TextStyle(color: Color(0xff0170B9)),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_drop_down,
+                                    color: Color(0xff0170B9),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
                       ),
-                    ],
+                    ),
                   ),
+                ],
+              ),
       ),
       floatingActionButton: Obx(
         () => InkWell(
