@@ -23,6 +23,7 @@ class HomeController extends GetxController {
     isLoading(true);
     final box = GetStorage();
     var userDataLocal = box.read('userData');
+    print('data local : $userDataLocal');
 
     var _dataPrecense = await PrecenseServices.precenseModel(filter);
 

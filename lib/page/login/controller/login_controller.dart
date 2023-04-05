@@ -36,8 +36,8 @@ class LoginController extends GetxController {
           var data = jsonDecode(response.body);
           var userData = data['data'];
           final box = GetStorage();
-
-          await box.write('userData', userData);
+          // box.erase();
+          box.write('userData', userData);
           var dataLocal = box.read('userData');
           print(dataLocal['name']);
           Get.offAll(MainPage());

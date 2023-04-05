@@ -64,6 +64,12 @@ class DetailPrecenseOutView extends StatelessWidget {
                             description: 'Out',
                             width: 136,
                           ),
+                          DetailDescription(
+                            name: 'Lokasi',
+                            description:
+                                '${controller.detailPrecenseModel!.data.lokasiOut == null ? '-' : controller.detailPrecenseModel!.data.lokasiOut}',
+                            width: 136,
+                          ),
                         ],
                       ),
                       SizedBox(

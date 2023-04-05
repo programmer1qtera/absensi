@@ -16,20 +16,27 @@ class PrecenseServices {
   static Future<dynamic> precenseModel(String filter) async {
     print(filter);
     final box = GetStorage();
-    var userData = box.read('userData');
-    String tokens = userData['token'];
+    var userData = box.read("userData");
+    print('User data in services: $userData');
+    var tokens = userData['token'];
     final url = Uri.parse(
         '${dotenv.env['API_BASE_URL']}/mobile/absencies?date=$filter');
-
-    final response = await http.get(url, headers: {'x-access-token': tokens});
-    print('response precense ${response.statusCode}');
-    if (response.statusCode == 200) {
-      return PrecenseModel.fromJson(jsonDecode(response.body));
-    } else {
-      await box.erase();
+    try {
+      final response = await http.get(url, headers: {'x-access-token': tokens});
+      print('response precense ${response.statusCode}');
+      if (response.statusCode == 200) {
+        return PrecenseModel.fromJson(jsonDecode(response.body));
+      } else {
+        box.erase();
+        Get.offAll(LoginView());
+        Fluttertoast.showToast(msg: 'Silakan Login Kembali');
+        // throw Exception();
+      }
+    } catch (e) {
+      print(e);
+      box.erase();
       Get.offAll(LoginView());
-      Fluttertoast.showToast(msg: 'Silakan Login Kembali');
-      throw Exception();
+      Fluttertoast.showToast(msg: 'Silakan Login Kembali$e');
     }
   }
 

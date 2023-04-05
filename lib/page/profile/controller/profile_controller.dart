@@ -18,6 +18,13 @@ class ProfileController extends GetxController {
   UserModel? _userModel;
   UserModel? get resul => _userModel;
 
+  void logOut() {
+    final box = GetStorage();
+    box.erase();
+
+    Get.offAll(LoginView());
+  }
+
   Future<dynamic> getProfile() async {
     isLoading(true);
     final box = GetStorage();
