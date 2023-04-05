@@ -138,8 +138,9 @@ class PrecenseOutController extends GetxController {
       });
     } catch (e) {
       isLoading(false);
+      Get.offAll(MainPage());
       Fluttertoast.showToast(
-          msg: 'Gagal Absen Silakan Absen Ulang Kembali',
+          msg: 'Gagal Absen Silakan Absen Ulang Kembali $e',
           gravity: ToastGravity.CENTER);
     }
 

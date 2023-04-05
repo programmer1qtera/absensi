@@ -40,7 +40,7 @@ class PrecenseServices {
     }
   }
 
-  static Future<DetailPrecenseModel> detaiPrecenseModel(String id) async {
+  static Future<dynamic> detaiPrecenseModel(String id) async {
     final box = GetStorage();
     var userData = box.read('userData');
     String tokens = userData['token'];
@@ -51,7 +51,6 @@ class PrecenseServices {
     } else {
       Get.offAll(HomeView());
       Fluttertoast.showToast(msg: 'Silakan Login Kembali');
-      throw Exception();
     }
   }
 }

@@ -91,11 +91,13 @@ class PrecenseController extends GetxController {
       }
     } on PlatformException catch (e) {
       print('Platform Exception $e');
+      Get.back();
       Fluttertoast.showToast(
           msg: 'Cek Koneksi, Lokasi, Camera $e', gravity: ToastGravity.CENTER);
       isLoading.value = false;
     } catch (e) {
       print(e);
+      Get.back();
       Fluttertoast.showToast(
           msg: 'Cek Koneksi dan Lokasi $e', gravity: ToastGravity.CENTER);
       isLoading.value = false;
@@ -178,7 +180,7 @@ class PrecenseController extends GetxController {
           msg: 'Gagal Absen Silakan Absen Ulang Kembali $e',
           gravity: ToastGravity.CENTER);
       Get.offAll(MainPage());
-      print(e);
+      // print(e);
       isLoading(false);
     }
 
