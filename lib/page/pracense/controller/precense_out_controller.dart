@@ -18,6 +18,13 @@ import '../../main_page/main_page_view.dart';
 import '../view/confirm_picture_out_view.dart';
 
 class PrecenseOutController extends GetxController {
+  @override
+  void onInit() async {
+    // TODO: implement onInit
+    await GetStorage.init();
+    super.onInit();
+  }
+
   TextEditingController placeC = TextEditingController();
   TextEditingController descriptonC = TextEditingController();
   var isLoading = false.obs;

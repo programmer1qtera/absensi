@@ -214,7 +214,7 @@ class ConfirmPictureOutView extends StatelessWidget {
 
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    // showCloseIcon: true,
+                                    // showCloseIcon: true
                                     dismissDirection:
                                         DismissDirection.horizontal,
                                     elevation: 10,

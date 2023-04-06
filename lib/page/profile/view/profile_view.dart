@@ -10,13 +10,13 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class ProfileView extends GetView<ProfileController> {
-  const ProfileView({super.key});
+  ProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(ProfileController());
     final box = GetStorage();
-    var userDataLocal = box.read('userData');
+    var userDataLocal = box.read("userData");
     var userId = userDataLocal['_id'];
 
     return Scaffold(
@@ -151,7 +151,10 @@ class ProfileView extends GetView<ProfileController> {
                             shadowColor: Colors.white.withOpacity(0),
                             primary: Colors.white),
                         onPressed: () {
-                          controller.logOut();
+                          // controller.logOut();
+                          box.remove('userData');
+                          print(box.read('userData'));
+                          Get.offAll(LoginView());
                         },
                         child: Text(
                           'Logout',

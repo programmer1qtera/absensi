@@ -21,9 +21,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final box = GetStorage();
-    final userHasLog = box.read('userData');
-    return StreamBuilder(
-        stream: Stream.periodic(Duration(seconds: 3)),
+    final userHasLog = box.read("userData");
+    print(userHasLog);
+    return FutureBuilder(
+        future: Future.delayed(Duration(seconds: 3)),
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return SplashScreen();

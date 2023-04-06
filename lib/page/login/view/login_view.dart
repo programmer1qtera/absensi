@@ -157,8 +157,12 @@ class LoginView extends GetView<LoginController> {
                             },
                             child: controller.isLoading.value == true
                                 ? Center(
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
+                                    child: Container(
+                                      height: 20,
+                                      width: 20,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   )
                                 : Text('Login'))),

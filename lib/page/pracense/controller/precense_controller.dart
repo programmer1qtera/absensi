@@ -22,10 +22,10 @@ import '../view/confirm_picture_out_view.dart';
 
 class PrecenseController extends GetxController {
   @override
-  void onClose() {
-    // TODO: implement onClose
-
-    super.onClose();
+  void onInit() async {
+    // TODO: implement onInit
+    await GetStorage.init();
+    super.onInit();
   }
 
   TextEditingController placeC = TextEditingController();
@@ -117,7 +117,7 @@ class PrecenseController extends GetxController {
   Future<dynamic> uploadData(context) async {
     isLoading(true);
     final box = GetStorage();
-    var userData = box.read('userData');
+    var userData = box.read("userData");
     var tokens = userData['token'];
     final url = Uri.parse('${dotenv.env['API_BASE_URL']}/mobile/absencies');
 

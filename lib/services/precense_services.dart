@@ -16,41 +16,49 @@ class PrecenseServices {
   static Future<dynamic> precenseModel(String filter) async {
     print(filter);
     final box = GetStorage();
-    var userData = box.read("userData");
-    print('User data in services: $userData');
+    final userData = box.read('userData');
+    // var employeeId = userData['employee'];
     var tokens = userData['token'];
+    ;
+    print('Token precens services :$tokens');
     final url = Uri.parse(
         '${dotenv.env['API_BASE_URL']}/mobile/absencies?date=$filter');
     try {
-      final response = await http.get(url, headers: {'x-access-token': tokens});
+      final response =
+          await http.get(url, headers: {'x-access-token': '$tokens'});
       print('response precense ${response.statusCode}');
       if (response.statusCode == 200) {
         return PrecenseModel.fromJson(jsonDecode(response.body));
       } else {
-        box.erase();
+        box.remove('userData');
+        Fluttertoast.showToast(
+            msg: 'Silakan Login Kembali', gravity: ToastGravity.CENTER);
         Get.offAll(LoginView());
-        Fluttertoast.showToast(msg: 'Silakan Login Kembali');
-        // throw Exception();
+        // box.erase();
+        // // return Get.offAll(LoginView());
+        // throw Exception('error');
       }
     } catch (e) {
-      print(e);
-      box.erase();
+      box.remove('userData');
+
+      Fluttertoast.showToast(
+          msg: 'Silakan Login Kembali', gravity: ToastGravity.CENTER);
       Get.offAll(LoginView());
-      Fluttertoast.showToast(msg: 'Silakan Login Kembali$e');
     }
   }
 
   static Future<dynamic> detaiPrecenseModel(String id) async {
     final box = GetStorage();
     var userData = box.read('userData');
-    String tokens = userData['token'];
+    var tokens = userData['token'];
     final url = Uri.parse('${dotenv.env['API_BASE_URL']}/mobile/absencies/$id');
-    final response = await http.get(url, headers: {'x-access-token': tokens});
+    final response =
+        await http.get(url, headers: {'x-access-token': '$tokens'});
     if (response.statusCode == 200) {
       return DetailPrecenseModel.fromJson(jsonDecode(response.body));
     } else {
       Get.offAll(HomeView());
-      Fluttertoast.showToast(msg: 'Silakan Login Kembali');
+      Fluttertoast.showToast(msg: 'Tesrjadi Kesalahan');
     }
   }
 }

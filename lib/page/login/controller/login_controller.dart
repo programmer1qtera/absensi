@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:absensi/page/home/view/home_view.dart';
 import 'package:absensi/page/main_page/main_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -9,6 +10,14 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
 class LoginController extends GetxController {
+  @override
+  void onInit() {
+    final box = GetStorage();
+    box.erase();
+    // TODO: implement onInit
+    super.onInit();
+  }
+
   TextEditingController usernameC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
 
@@ -35,11 +44,12 @@ class LoginController extends GetxController {
           print(response.body);
           var data = jsonDecode(response.body);
           var userData = data['data'];
-          final box = GetStorage();
           // box.erase();
+          final box = GetStorage();
+
           box.write('userData', userData);
           var dataLocal = box.read('userData');
-          print(dataLocal['name']);
+          print('token from login ${dataLocal['token']}');
           Get.offAll(MainPage());
           isLoading(false);
         } else {

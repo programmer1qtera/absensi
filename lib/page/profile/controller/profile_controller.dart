@@ -20,14 +20,15 @@ class ProfileController extends GetxController {
 
   void logOut() {
     final box = GetStorage();
+    // box.remove('userData');
     box.erase();
-
+    print(box.read('userData'));
     Get.offAll(LoginView());
   }
 
   Future<dynamic> getProfile() async {
     isLoading(true);
-    final box = GetStorage();
+    // GetStorage box = GetStorage();
 
     var dataProfile = await UserServices.userServices();
 
@@ -39,7 +40,6 @@ class ProfileController extends GetxController {
       print('Data kosong');
       isLoading(false);
       Get.offAll(LoginView());
-      box.erase();
       Fluttertoast.showToast(msg: 'Silahkan Login Kembali');
     }
   }
