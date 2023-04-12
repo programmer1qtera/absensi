@@ -33,10 +33,10 @@ class DetailPrecenseController extends GetxController {
 
   Future<dynamic> downloadImg(String nameImage) async {
     Dio dio = Dio();
-    final box = GetStorage();
-    var userDataLocal = box.read('userData');
-    var userId = userDataLocal['_id'];
-    final imageUrl =
+    final GetStorage box = GetStorage();
+    dynamic userDataLocal = box.read('userData');
+    dynamic userId = userDataLocal['_id'];
+    final String imageUrl =
         'https://api-kepegawaian.qtera.co.id/files/users/$userId/$nameImage';
     try {
       String savePath = await getFilePath(nameImage);
@@ -107,11 +107,11 @@ class DetailPrecenseController extends GetxController {
   }
 
   Future<dynamic> getDetailPrecense(String id) async {
-    final box = GetStorage();
+    final GetStorage box = GetStorage();
 
     try {
       isLoading(true);
-      var dataPrecense = await PrecenseServices.detaiPrecenseModel(id);
+      dynamic dataPrecense = await PrecenseServices.detaiPrecenseModel(id);
       if (dataPrecense != null) {
         detailPrecenseModel = dataPrecense;
         Get.to(DetailPrecenseView());

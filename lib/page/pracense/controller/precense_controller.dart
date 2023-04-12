@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:absensi/page/home/controller/home_controller.dart';
+import 'package:absensi/page/login/view/login_view.dart';
 import 'package:absensi/page/main_page/main_page_view.dart';
 import 'package:absensi/page/pracense/view/confirm_picture_view.dart';
+import 'package:absensi/page/profile/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -28,16 +30,27 @@ class PrecenseController extends GetxController {
     super.onInit();
   }
 
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    super.onClose();
+    getToken = null;
+  }
+
   TextEditingController placeC = TextEditingController();
   TextEditingController descriptonC = TextEditingController();
   var controller = Get.put(HomeController());
+  var controller2 = Get.put(ProfileController());
 
   final ImagePicker _picker = ImagePicker();
+  final box = GetStorage();
   List<DropdownMenuEntry> menuEntry = [];
   List<String> listDrop = <String>['Meeting', 'POC', 'Presentasi', 'ELSA'];
   String dropDownVal = 'Pilih';
+  String? getToken;
+  String? getName;
   // String? dropDownVal2;
-  var isLoading = false.obs;
+  RxBool isLoading = false.obs;
   XFile? filePick;
   File? imageResult;
   String? nameFile;
@@ -53,7 +66,13 @@ class PrecenseController extends GetxController {
     update();
   }
 
-  void pickImage() async {
+  void pickImage(String token, String name) async {
+    getToken = token;
+    getName = name;
+    print('get token $getToken & name $getName');
+    var userData = box.read("userData");
+
+    print('user data pic image in $userData');
     isLoading.value = true;
     try {
       Map<String, dynamic> getLocation = await determinePosition();
@@ -116,9 +135,7 @@ class PrecenseController extends GetxController {
 
   Future<dynamic> uploadData(context) async {
     isLoading(true);
-    final box = GetStorage();
-    var userData = box.read("userData");
-    var tokens = userData['token'];
+    print('upload data $getToken & $getName');
     final url = Uri.parse('${dotenv.env['API_BASE_URL']}/mobile/absencies');
 
     try {
@@ -128,53 +145,62 @@ class PrecenseController extends GetxController {
 
       var multipart =
           http.MultipartFile('foto', stream, lenght, filename: filePick!.name);
-      var request = http.MultipartRequest('POST', url)
-        ..headers.addAll(
-            {"x-access-token": tokens, "Content-Type": "multipart/form-data"})
-        ..files.add(multipart)
-        ..fields['type'] = 'in'
-        ..fields['keperluan'] = dropDownVal
-        ..fields['rincian_keperluan'] = descriptonC.text
-        ..fields['lokasi_in'] = '${placeC.text}, $address';
-      var response = await request.send();
-      print(response.statusCode);
-      response.stream.transform(utf8.decoder).listen((event) {
-        print(event);
-        if (response.statusCode == 201) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              // showCloseIcon: true,
-              dismissDirection: DismissDirection.horizontal,
-              elevation: 10,
-              margin: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).size.height * 0.40,
-                  left: 10,
-                  right: 10),
-              backgroundColor: Colors.white,
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
+      if (dropDownVal != 'Pilih') {
+        var request = http.MultipartRequest('POST', url)
+          ..headers.addAll({
+            "x-access-token": "$getToken",
+            "Content-Type": "multipart/form-data"
+          })
+          ..files.add(multipart)
+          ..fields['type'] = 'in'
+          ..fields['keperluan'] = dropDownVal
+          ..fields['rincian_keperluan'] = descriptonC.text
+          ..fields['lokasi_in'] = '${placeC.text}, $address';
+        var response = await request.send();
+        print(response.statusCode);
+        response.stream.transform(utf8.decoder).listen((event) {
+          print(event);
+          if (response.statusCode == 201) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                duration: Duration(milliseconds: 800),
+                dismissDirection: DismissDirection.horizontal,
+                elevation: 10,
+                margin: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).size.height * 0.40,
+                    left: 10,
+                    right: 10),
+                backgroundColor: Colors.white,
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                content: SnackbarItem(
+                    isClose: false,
+                    colorIcon: Colors.green,
+                    colorText: Colors.black,
+                    icon: Icons.check_circle,
+                    desc: 'Absen Berhasil Di Buat'),
               ),
-              content: SnackbarItem(
-                  isClose: false,
-                  colorIcon: Colors.green,
-                  colorText: Colors.black,
-                  icon: Icons.check_circle,
-                  desc: 'Absen Berhasil Di Buat'),
-            ),
-          );
+            );
 
-          Get.offAll(MainPage());
-          controller.getPrecense('');
-          isLoading(false);
-        } else {
-          Fluttertoast.showToast(
-              msg: 'Gagal Absen Silakan Absen Ulang Kembali',
-              gravity: ToastGravity.CENTER);
-          Get.offAll(MainPage());
-          isLoading(false);
-        }
-      });
+            Get.offAll(MainPage());
+            controller.getPrecense('today');
+            controller2.getProfile();
+            isLoading(false);
+          } else {
+            Fluttertoast.showToast(
+                msg: 'Gagal Absen Silakan Logini',
+                gravity: ToastGravity.CENTER);
+            Get.offAll(LoginView());
+            isLoading(false);
+          }
+        });
+      } else {
+        Fluttertoast.showToast(
+            msg: 'Isi Keperluan Terlebih Dahulu', gravity: ToastGravity.CENTER);
+        isLoading(false);
+      }
     } catch (e) {
       Fluttertoast.showToast(
           msg: 'Gagal Absen Silakan Absen Ulang Kembali $e',
@@ -183,27 +209,6 @@ class PrecenseController extends GetxController {
       // print(e);
       isLoading(false);
     }
-
-    // try {
-    //   final response = await http.post(url, headers: {
-    //     "x-access-token": tokens,
-    //     "Content-Type": "multipart/form-data"
-    //   }, body: {
-    //     'foto': multipart,
-    //     'type': 'in',
-    //     'keperluan': dropDownVal,
-    //     'rincian_keperluan': descriptonC.text,
-    //     'lokasi_in': '${placeC.text}, $address',
-    //     'lokasi_out': '',
-    //   });
-    //   if (response.statusCode == 200) {
-    //     print(response.body);
-    //   } else {
-    //     print(response.body);
-    //   }
-    // } catch (e) {
-    //   print(e);
-    // }
   }
 
   Future<Map<String, dynamic>> determinePosition() async {

@@ -9,6 +9,7 @@ import '../../login/view/login_view.dart';
 class ProfileController extends GetxController {
   @override
   void onInit() async {
+    await GetStorage.init();
     await getProfile();
     // TODO: implement onInit
     super.onInit();
@@ -19,28 +20,31 @@ class ProfileController extends GetxController {
   UserModel? get resul => _userModel;
 
   void logOut() {
+    print('out');
+    Get.offAll(LoginView());
+
     final box = GetStorage();
-    // box.remove('userData');
     box.erase();
     print(box.read('userData'));
-    Get.offAll(LoginView());
   }
 
   Future<dynamic> getProfile() async {
     isLoading(true);
-    // GetStorage box = GetStorage();
+    try {
+      dynamic dataProfile = await UserServices.userServices();
 
-    var dataProfile = await UserServices.userServices();
-
-    if (dataProfile != null) {
-      _userModel = dataProfile;
-      print(_userModel!.data.name);
-      isLoading(false);
-    } else {
-      print('Data kosong');
-      isLoading(false);
+      if (dataProfile != null) {
+        _userModel = dataProfile;
+        print(_userModel!.data.name);
+        isLoading(false);
+      } else {
+        print('Data kosong');
+        isLoading(false);
+        Get.offAll(LoginView());
+        Fluttertoast.showToast(msg: 'Silahkan Login Kembali');
+      }
+    } catch (e) {
       Get.offAll(LoginView());
-      Fluttertoast.showToast(msg: 'Silahkan Login Kembali');
     }
   }
 }

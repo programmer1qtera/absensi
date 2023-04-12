@@ -27,8 +27,8 @@ class HomeView extends GetView<HomeController> {
 
     final box = GetStorage();
     var userDataLocal = box.read('userData');
-    var userName = userDataLocal['name'];
-    var userId = userDataLocal['_id'];
+    final userName = userDataLocal['name'];
+    final userId = userDataLocal['_id'];
     return Scaffold(
       // backgroundColor: Color(),
       backgroundColor: Color(0xffEFF3F8),
@@ -320,17 +320,23 @@ class HomeView extends GetView<HomeController> {
           onTap: () {
             // controller.inOutLogic();
             // controller2.pickImage();
+            var userData = box.read("userData");
+            final tokens = userData['token'];
+
+            final name = userData['name'];
+            print('data lokal from button absens $userData & name $name');
+
             var dataNull = controller.precenseModel?.data.absensi.length;
 
             if (dataNull == null || dataNull == 0) {
-              controller2.pickImage();
+              controller2.pickImage(tokens, name);
             } else {
               var getCekOut = controller
                   .precenseModel?.data.absensi.last.waktuAbsen.checkOut;
               if (getCekOut == null) {
-                controller3.pickImage();
+                controller3.pickImage(tokens);
               } else {
-                controller2.pickImage();
+                controller2.pickImage(tokens, name);
               }
             }
 

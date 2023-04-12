@@ -9,10 +9,11 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 
-class ConfirmPictureView extends StatelessWidget {
+class ConfirmPictureView extends GetView<PrecenseController> {
   const ConfirmPictureView({super.key});
 
   @override
@@ -209,7 +210,7 @@ class ConfirmPictureView extends StatelessWidget {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 56, vertical: 22),
+                      const EdgeInsets.symmetric(horizontal: 36, vertical: 22),
                   child: Row(
                     children: [
                       Expanded(
@@ -225,8 +226,12 @@ class ConfirmPictureView extends StatelessWidget {
                                 shadowColor: Colors.white.withOpacity(0),
                                 primary: Colors.white),
                             onPressed: () {
+                              final box = GetStorage();
+                              var userData = box.read("userData");
+                              final name = userData['name'];
+                              final tokens = userData['token'];
                               Get.back();
-                              controller.pickImage();
+                              controller.pickImage(tokens, name);
                             },
                             child: controller.isLoading.value == true
                                 ? Center(
@@ -261,6 +266,7 @@ class ConfirmPictureView extends StatelessWidget {
                                 controller.position = null;
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
+                                    duration: Duration(seconds: 1),
                                     dismissDirection:
                                         DismissDirection.horizontal,
                                     elevation: 10,
@@ -290,6 +296,8 @@ class ConfirmPictureView extends StatelessWidget {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     // showCloseIcon: true,
+                                    duration: Duration(milliseconds: 800),
+
                                     dismissDirection:
                                         DismissDirection.horizontal,
                                     elevation: 10,

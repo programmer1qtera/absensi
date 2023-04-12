@@ -15,18 +15,15 @@ import '../page/home/view/home_view.dart';
 class PrecenseServices {
   static Future<dynamic> precenseModel(String filter) async {
     print(filter);
-    final box = GetStorage();
-    final userData = box.read('userData');
-    // var employeeId = userData['employee'];
-    var tokens = userData['token'];
-    ;
-    print('Token precens services :$tokens');
-    final url = Uri.parse(
+    final GetStorage box = GetStorage();
+    dynamic userData = box.read('userData');
+    print('Data from precense Services : $userData');
+    dynamic tokens = userData['token'];
+    final Uri url = Uri.parse(
         '${dotenv.env['API_BASE_URL']}/mobile/absencies?date=$filter');
     try {
       final response =
           await http.get(url, headers: {'x-access-token': '$tokens'});
-      print('response precense ${response.statusCode}');
       if (response.statusCode == 200) {
         return PrecenseModel.fromJson(jsonDecode(response.body));
       } else {
@@ -34,9 +31,6 @@ class PrecenseServices {
         Fluttertoast.showToast(
             msg: 'Silakan Login Kembali', gravity: ToastGravity.CENTER);
         Get.offAll(LoginView());
-        // box.erase();
-        // // return Get.offAll(LoginView());
-        // throw Exception('error');
       }
     } catch (e) {
       box.remove('userData');
@@ -48,10 +42,11 @@ class PrecenseServices {
   }
 
   static Future<dynamic> detaiPrecenseModel(String id) async {
-    final box = GetStorage();
-    var userData = box.read('userData');
-    var tokens = userData['token'];
-    final url = Uri.parse('${dotenv.env['API_BASE_URL']}/mobile/absencies/$id');
+    final GetStorage box = GetStorage();
+    dynamic userData = box.read('userData');
+    dynamic tokens = userData['token'];
+    final Uri url =
+        Uri.parse('${dotenv.env['API_BASE_URL']}/mobile/absencies/$id');
     final response =
         await http.get(url, headers: {'x-access-token': '$tokens'});
     if (response.statusCode == 200) {

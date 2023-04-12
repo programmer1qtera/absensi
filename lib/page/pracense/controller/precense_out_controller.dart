@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:absensi/page/home/controller/home_controller.dart';
+import 'package:absensi/page/login/view/login_view.dart';
 import 'package:absensi/page/pracense/view/confirm_picture_view.dart';
+import 'package:absensi/page/profile/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -27,18 +29,23 @@ class PrecenseOutController extends GetxController {
 
   TextEditingController placeC = TextEditingController();
   TextEditingController descriptonC = TextEditingController();
-  var isLoading = false.obs;
+  RxBool isLoading = false.obs;
   var controller = Get.put(HomeController());
+  var controller2 = Get.put(ProfileController());
   final ImagePicker _picker = ImagePicker();
+  final box = GetStorage();
+
   XFile? filePick;
   String? nameFile;
   Position? position;
+  String? getTokenOut;
   bool? isFakeGps;
   String? address;
   DateTime? now;
   String? time;
 
-  void pickImage() async {
+  void pickImage(String token) async {
+    getTokenOut = token;
     isLoading(true);
     try {
       Map<String, dynamic> getLocation = await determinePosition();
@@ -84,9 +91,6 @@ class PrecenseOutController extends GetxController {
   }
 
   Future<dynamic> uploadData(context) async {
-    final box = GetStorage();
-    var userData = box.read('userData');
-    var tokens = userData['token'];
     final url = Uri.parse('${dotenv.env['API_BASE_URL']}/mobile/absencies');
     isLoading(true);
     try {
@@ -97,8 +101,10 @@ class PrecenseOutController extends GetxController {
       var multipart =
           http.MultipartFile('foto', stream, lenght, filename: filePick!.name);
       var request = http.MultipartRequest('POST', url)
-        ..headers.addAll(
-            {"x-access-token": tokens, "Content-Type": "multipart/form-data"})
+        ..headers.addAll({
+          "x-access-token": "$getTokenOut",
+          "Content-Type": "multipart/form-data"
+        })
         ..files.add(multipart)
         ..fields['type'] = 'out'
         ..fields['keperluan'] = ''
@@ -111,6 +117,8 @@ class PrecenseOutController extends GetxController {
         if (response.statusCode == 201) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
+              duration: Duration(milliseconds: 800),
+
               // showCloseIcon: true,
               dismissDirection: DismissDirection.horizontal,
               elevation: 10,
@@ -133,6 +141,8 @@ class PrecenseOutController extends GetxController {
           );
 
           controller.getPrecense('');
+          controller2.getProfile();
+
           Get.offAll(MainPage());
           isLoading(false);
         } else {
@@ -145,32 +155,11 @@ class PrecenseOutController extends GetxController {
       });
     } catch (e) {
       isLoading(false);
-      Get.offAll(MainPage());
+      Get.offAll(LoginView());
       Fluttertoast.showToast(
           msg: 'Gagal Absen Silakan Absen Ulang Kembali $e',
           gravity: ToastGravity.CENTER);
     }
-
-    // try {
-    //   final response = await http.post(url, headers: {
-    //     "x-access-token": tokens,
-    //     "Content-Type": "multipart/form-data"
-    //   }, body: {
-    //     'foto': multipart,
-    //     'type': 'in',
-    //     'keperluan': dropDownVal,
-    //     'rincian_keperluan': descriptonC.text,
-    //     'lokasi_in': '${placeC.text}, $address',
-    //     'lokasi_out': '',
-    //   });
-    //   if (response.statusCode == 200) {
-    //     print(response.body);
-    //   } else {
-    //     print(response.body);
-    //   }
-    // } catch (e) {
-    //   print(e);
-    // }
   }
 
   Future<Map<String, dynamic>> determinePosition() async {

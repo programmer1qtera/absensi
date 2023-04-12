@@ -13,7 +13,7 @@ class LoginController extends GetxController {
   @override
   void onInit() {
     final box = GetStorage();
-    box.erase();
+    // box.erase();
     // TODO: implement onInit
     super.onInit();
   }
@@ -21,8 +21,8 @@ class LoginController extends GetxController {
   TextEditingController usernameC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
 
-  var isObscure = false.obs;
-  var isLoading = false.obs;
+  RxBool isObscure = false.obs;
+  RxBool isLoading = false.obs;
 
   void obscureFun() {
     isObscure.value = !isObscure.value;
@@ -32,7 +32,7 @@ class LoginController extends GetxController {
     isLoading(true);
     try {
       if (usernameC.text != '' || passwordC.text != '') {
-        final url =
+        final Uri url =
             Uri.parse('${dotenv.env['API_BASE_URL']}/auth/mobile/sign-in');
         final response = await http.post(url,
             headers: {"Content-Type": 'application/json'},
@@ -42,9 +42,8 @@ class LoginController extends GetxController {
             }));
         if (response.statusCode == 200) {
           print(response.body);
-          var data = jsonDecode(response.body);
-          var userData = data['data'];
-          // box.erase();
+          dynamic data = jsonDecode(response.body);
+          dynamic userData = data['data'];
           final box = GetStorage();
 
           box.write('userData', userData);
@@ -68,7 +67,6 @@ class LoginController extends GetxController {
     } catch (e) {
       print(e);
       Fluttertoast.showToast(msg: 'Cek Koneksi', gravity: ToastGravity.CENTER);
-      // Get.back();
       isLoading(false);
       throw Exception();
     }

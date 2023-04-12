@@ -153,6 +153,7 @@ class LoginView extends GetView<LoginController> {
                             onPressed: () {
                               if (controller.isLoading.value == false) {
                                 controller.login();
+                                // Get.offAll(page)
                               }
                             },
                             child: controller.isLoading.value == true

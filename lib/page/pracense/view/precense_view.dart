@@ -6,7 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 
-class PrecenseView extends StatelessWidget {
+class PrecenseView extends GetView<PrecenseController> {
   const PrecenseView({super.key});
 
   @override
@@ -284,7 +284,7 @@ class PrecenseView extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 56, vertical: 22),
+                          horizontal: 36, vertical: 22),
                       child: Row(
                         children: [
                           Expanded(

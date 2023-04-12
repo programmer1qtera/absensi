@@ -17,7 +17,6 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     // TODO: implement onInit
-    // await getProfile();
 
     await getPrecense('today');
     super.onInit();
@@ -25,28 +24,6 @@ class HomeController extends GetxController {
 
   RxBool isLoading = false.obs;
   PrecenseModel? precenseModel;
-  // UserModel? _userModel;
-  // UserModel? get resul => _userModel;
-
-  var userName;
-  // Future<dynamic> getProfile() async {
-  //   isLoading(true);
-  //   // GetStorage box = GetStorage();
-
-  //   var dataProfile = await UserServices.userServices();
-
-  //   if (dataProfile != null) {
-  //     _userModel = dataProfile;
-  //     print('user name from home : ${_userModel!.data.name}');
-  //     isLoading(false);
-  //   } else {
-  //     print('Data kosong');
-  //     Get.offAll(LoginView());
-
-  //     isLoading(false);
-  //     Fluttertoast.showToast(msg: 'Silahkan Login Kembali');
-  //   }
-  // }
 
   Future<dynamic> getPrecense(String filter) async {
     isLoading(true);
@@ -54,14 +31,12 @@ class HomeController extends GetxController {
     var userDataLocal = box.read('userData');
     print('data local : $userDataLocal');
     try {
-      var _dataPrecense = await PrecenseServices.precenseModel(filter);
+      dynamic _dataPrecense = await PrecenseServices.precenseModel(filter);
 
       if (_dataPrecense != null) {
         precenseModel = _dataPrecense;
-        // print(precenseModel!.data.absensi[0].hariAbsen);
 
         isLoading(false);
-        userName = userDataLocal['name'];
       } else {
         isLoading(false);
         print('data precense nuul');
@@ -72,17 +47,12 @@ class HomeController extends GetxController {
   }
 
   void inOutLogic() async {
-    // int dataNum = precenseModel!.data.absensi.length;
-    // for (var i in precenseModel!.data.absensi) {
-    //   if (1.) {
-
-    //   }
-    // }
     var getCekinNow = precenseModel!.data.absensi.last.waktuAbsen.checkIn;
     print(DateFormat.yMEd().format(getCekinNow));
     if (DateFormat.yMEd().format(getCekinNow) ==
         DateFormat.yMEd().format(DateTime.now())) {
-      var getCekOut = precenseModel?.data.absensi.last.waktuAbsen.checkOut;
+      DateTime? getCekOut =
+          precenseModel?.data.absensi.last.waktuAbsen.checkOut;
       if (getCekOut == null) {
         print('cekout kosong');
       } else {

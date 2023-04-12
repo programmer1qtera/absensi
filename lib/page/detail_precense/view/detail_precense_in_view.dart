@@ -15,9 +15,9 @@ class DetailPrecenseInView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(DetailPrecenseController());
-    final box = GetStorage();
-    var userDataLocal = box.read('userData');
-    var userId = userDataLocal['_id'];
+    final GetStorage box = GetStorage();
+    dynamic userDataLocal = box.read('userData');
+    dynamic userId = userDataLocal['_id'];
 
     return Scaffold(
       backgroundColor: Colors.white,

@@ -9,10 +9,11 @@ import 'package:http/http.dart' as http;
 
 class UserServices {
   static Future<dynamic> userServices() async {
-    final box = GetStorage();
-    final userData = box.read('userData');
-    var employeeId = userData['employee'];
-    var tokens = userData['token'];
+    final GetStorage box = GetStorage();
+    dynamic userData = box.read('userData');
+    print('Data from User Services : $userData');
+    dynamic employeeId = userData['employee'];
+    dynamic tokens = userData['token'];
     print('toke profile :$tokens ,employeeId : $employeeId');
 
     try {
@@ -28,10 +29,6 @@ class UserServices {
             msg: 'Silakan Login Kembali', gravity: ToastGravity.CENTER);
         box.erase();
         return Get.offAll(LoginView());
-        // box.erase();
-        // print(box.read('userData'));
-        // return Get.offAll(LoginView());
-        // throw Exception('error');
       }
     } catch (e) {
       print('user services error $e');
@@ -39,7 +36,6 @@ class UserServices {
       Get.offAll(LoginView());
       Fluttertoast.showToast(
           msg: 'Silakan Login Kembali', gravity: ToastGravity.CENTER);
-      // throw Exception();
     }
   }
 }

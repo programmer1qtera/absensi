@@ -151,10 +151,17 @@ class ProfileView extends GetView<ProfileController> {
                             shadowColor: Colors.white.withOpacity(0),
                             primary: Colors.white),
                         onPressed: () {
-                          // controller.logOut();
-                          box.remove('userData');
-                          print(box.read('userData'));
-                          Get.offAll(LoginView());
+                          controller.logOut();
+                          // box.erase();
+                          // Navigator.pushReplacement(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //       builder: (context) => LoginView(),
+                          // ));
+                          // Get.offAll(LoginView());
+
+                          // box.remove('userData');
+                          // print(box.read('userData'));
                         },
                         child: Text(
                           'Logout',

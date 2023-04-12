@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 
 import '../controller/precense_out_controller.dart';
 
-class PrecenseOutView extends StatelessWidget {
+class PrecenseOutView extends GetView<PrecenseOutController> {
   const PrecenseOutView({super.key});
 
   @override
@@ -203,7 +203,7 @@ class PrecenseOutView extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 56, vertical: 22),
+                          horizontal: 36, vertical: 22),
                       child: Row(
                         children: [
                           Expanded(

@@ -161,10 +161,10 @@ class WaktuAbsen {
   DateTime? checkOut;
 
   factory WaktuAbsen.fromJson(Map<String, dynamic> json) => WaktuAbsen(
-        checkIn: DateTime.parse(json["check_in"]),
+        checkIn: DateTime.parse(json["check_in"]).toLocal(),
         checkOut: json["check_out"] == null
             ? null
-            : DateTime.parse(json["check_out"]),
+            : DateTime.parse(json["check_out"]).toLocal(),
       );
 
   Map<String, dynamic> toJson() => {
