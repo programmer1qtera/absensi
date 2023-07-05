@@ -72,7 +72,7 @@ class ConfirmPictureOutView extends GetView<PrecenseOutController> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                '${DateFormat.yMMMEd().format(DateTime.now())} - ${DateFormat.Hm().format(DateTime.now())} ',
+                                '${DateFormat.yMMMEd('id-ID').format(DateTime.now())} - ${DateFormat.Hm('id-ID').format(DateTime.now())} ',
                                 style: TextStyle(color: Colors.white),
                               ),
                             ],
@@ -188,7 +188,7 @@ class ConfirmPictureOutView extends GetView<PrecenseOutController> {
                             var userData = box.read("userData");
                             final name = userData['name'];
                             final tokens = userData['token'];
-                            controller.pickImage(tokens);
+                            controller.pickImage(tokens, name);
                           },
                           child: Text(
                             'Foto Ulang',

@@ -25,7 +25,7 @@ class ItemAbsen extends StatelessWidget {
             child: Text(
               dataItemAbsensi?.waktuAbsen.checkIn == null
                   ? '-'
-                  : '${DateFormat.yMMMMEEEEd('id-ID').format(dataItemAbsensi!.waktuAbsen.checkIn)} Pukul ${dataItemAbsensi!.waktuAbsen.checkOut == null ? '-' : DateFormat.Hm('id-ID').format(dataItemAbsensi!.waktuAbsen.checkOut!)}',
+                  : '${DateFormat.yMMMMEEEEd('id-ID').format(dataItemAbsensi!.waktuAbsen.checkIn)} Pukul ${DateFormat.Hm('id-ID').format(dataItemAbsensi!.waktuAbsen.checkIn)} - ${dataItemAbsensi!.waktuAbsen.checkOut == null ? '' : DateFormat.Hm('id-ID').format(dataItemAbsensi!.waktuAbsen.checkOut!)}  ',
               style: TextStyle(
                   color: Colors.grey,
                   fontWeight: FontWeight.w400,

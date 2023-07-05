@@ -19,11 +19,13 @@ class HomeController extends GetxController {
     // TODO: implement onInit
 
     await getPrecense('today');
+    print(now);
     super.onInit();
   }
 
   RxBool isLoading = false.obs;
   PrecenseModel? precenseModel;
+  DateTime now = DateTime.now();
 
   Future<dynamic> getPrecense(String filter) async {
     isLoading(true);

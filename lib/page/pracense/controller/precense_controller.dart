@@ -26,7 +26,7 @@ class PrecenseController extends GetxController {
   @override
   void onInit() async {
     // TODO: implement onInit
-    await GetStorage.init();
+    // await GetStorage.init();
     super.onInit();
   }
 
@@ -37,6 +37,14 @@ class PrecenseController extends GetxController {
     getToken = null;
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    placeC.dispose();
+    descriptonC.dispose();
+    super.dispose();
+  }
+
   TextEditingController placeC = TextEditingController();
   TextEditingController descriptonC = TextEditingController();
   var controller = Get.put(HomeController());
@@ -45,8 +53,14 @@ class PrecenseController extends GetxController {
   final ImagePicker _picker = ImagePicker();
   final box = GetStorage();
   List<DropdownMenuEntry> menuEntry = [];
-  List<String> listDrop = <String>['Meeting', 'POC', 'Presentasi', 'ELSA'];
-  String dropDownVal = 'Pilih';
+  List<String> listDrop = <String>[
+    'Meeting',
+    'POC',
+    'Presentasi',
+    'ELSA',
+    'Lainnya'
+  ];
+  String dropDownVal = '';
   String? getToken;
   String? getName;
   // String? dropDownVal2;
@@ -134,9 +148,10 @@ class PrecenseController extends GetxController {
   // }
 
   Future<dynamic> uploadData(context) async {
+    final url = Uri.parse('${dotenv.env['API_BASE_URL']}/mobile/absencies');
+
     isLoading(true);
     print('upload data $getToken & $getName');
-    final url = Uri.parse('${dotenv.env['API_BASE_URL']}/mobile/absencies');
 
     try {
       var stream = http.ByteStream(filePick!.openRead());
@@ -155,6 +170,7 @@ class PrecenseController extends GetxController {
           ..fields['type'] = 'in'
           ..fields['keperluan'] = dropDownVal
           ..fields['rincian_keperluan'] = descriptonC.text
+          ..fields['nama_tempat'] = placeC.text
           ..fields['lokasi_in'] = '${placeC.text}, $address';
         var response = await request.send();
         print(response.statusCode);

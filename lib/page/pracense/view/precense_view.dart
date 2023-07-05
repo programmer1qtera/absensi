@@ -211,7 +211,8 @@ class PrecenseView extends GetView<PrecenseController> {
                           return DropdownButton<String>(
                             isExpanded: true,
                             // value: ctx.dropDownVal,
-                            hint: Text('${ctx.dropDownVal}'),
+                            hint: Text(
+                                '${ctx.dropDownVal == '' ? 'Pilih' : ctx.dropDownVal}'),
                             items: controller.listDrop
                                 .map(
                                   (e) => DropdownMenuItem(

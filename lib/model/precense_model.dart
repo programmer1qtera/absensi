@@ -66,6 +66,7 @@ class Absensi {
     required this.isTelat,
     required this.isLembur,
     required this.isUnpaid,
+    required this.namaTempat,
     required this.lokasiIn,
     required this.lokasiOut,
     required this.fotoIn,
@@ -87,6 +88,7 @@ class Absensi {
   bool isTelat;
   bool isLembur;
   bool isUnpaid;
+  String? namaTempat;
   String lokasiIn;
   String? lokasiOut;
   String fotoIn;
@@ -108,6 +110,7 @@ class Absensi {
         isTelat: json["is_telat"],
         isLembur: json["is_lembur"],
         isUnpaid: json["is_unpaid"],
+        namaTempat: json["nama_tempat"],
         lokasiIn: json["lokasi_in"],
         lokasiOut: json["lokasi_out"],
         fotoIn: json["foto_in"],

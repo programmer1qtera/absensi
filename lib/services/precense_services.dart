@@ -24,17 +24,17 @@ class PrecenseServices {
     try {
       final response =
           await http.get(url, headers: {'x-access-token': '$tokens'});
+
       if (response.statusCode == 200) {
         return PrecenseModel.fromJson(jsonDecode(response.body));
       } else {
-        box.remove('userData');
+        box.erase();
         Fluttertoast.showToast(
             msg: 'Silakan Login Kembali', gravity: ToastGravity.CENTER);
         Get.offAll(LoginView());
       }
     } catch (e) {
-      box.remove('userData');
-
+      box.erase();
       Fluttertoast.showToast(
           msg: 'Silakan Login Kembali', gravity: ToastGravity.CENTER);
       Get.offAll(LoginView());

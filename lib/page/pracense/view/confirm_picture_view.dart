@@ -86,12 +86,12 @@ class ConfirmPictureView extends GetView<PrecenseController> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                    '${DateFormat.yMMMEd().format(controller.now!)}',
+                                    '${DateFormat.yMMMEd('id-ID').format(controller.now!)}',
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600)),
                                 Text(
-                                    '${DateFormat.Hm().format(controller.now!)}',
+                                    '${DateFormat.Hm('id-ID').format(controller.now!)}',
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600))
@@ -230,7 +230,6 @@ class ConfirmPictureView extends GetView<PrecenseController> {
                               var userData = box.read("userData");
                               final name = userData['name'];
                               final tokens = userData['token'];
-                              Get.back();
                               controller.pickImage(tokens, name);
                             },
                             child: controller.isLoading.value == true

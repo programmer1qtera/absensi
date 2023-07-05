@@ -40,25 +40,34 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffEFF3F8),
+      backgroundColor: _curentIdx == 0 ? Color(0xffEFF3F8) : Colors.white,
       body: _curentIdx == 0 ? const HomeView() : ProfileView(),
       bottomNavigationBar: ClipRRect(
+        clipBehavior: Clip.antiAlias,
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30), topRight: Radius.circular(30)),
         child: BottomNavigationBar(
-            fixedColor: Color(0xff0170B9),
-            backgroundColor: Colors.white,
-            type: BottomNavigationBarType.fixed,
-            currentIndex: _curentIdx,
-            onTap: (value) {
-              setState(() {
-                _curentIdx = value;
-              });
-            },
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(label: '', icon: Icon(Icons.home_filled)),
-              BottomNavigationBarItem(label: '', icon: Icon(Icons.person)),
-            ]),
+          elevation: 2,
+          fixedColor: Color(0xff0170B9),
+          backgroundColor: Colors.white,
+          type: BottomNavigationBarType.fixed,
+          currentIndex: _curentIdx,
+          onTap: (value) {
+            setState(() {
+              _curentIdx = value;
+            });
+          },
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              label: '',
+              icon: Icon(Icons.home_filled),
+            ),
+            BottomNavigationBarItem(
+              label: '',
+              icon: Icon(Icons.person),
+            ),
+          ],
+        ),
       ),
     );
   }

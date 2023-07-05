@@ -23,8 +23,16 @@ class PrecenseOutController extends GetxController {
   @override
   void onInit() async {
     // TODO: implement onInit
-    await GetStorage.init();
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    super.onClose();
+    getTokenOut = null;
+    placeC.text = '';
+    descriptonC.text = '';
   }
 
   TextEditingController placeC = TextEditingController();
@@ -39,13 +47,15 @@ class PrecenseOutController extends GetxController {
   String? nameFile;
   Position? position;
   String? getTokenOut;
+  String? getNameLocal;
   bool? isFakeGps;
   String? address;
   DateTime? now;
   String? time;
 
-  void pickImage(String token) async {
+  void pickImage(String token, String name) async {
     getTokenOut = token;
+    getNameLocal = name;
     isLoading(true);
     try {
       Map<String, dynamic> getLocation = await determinePosition();
@@ -93,6 +103,8 @@ class PrecenseOutController extends GetxController {
   Future<dynamic> uploadData(context) async {
     final url = Uri.parse('${dotenv.env['API_BASE_URL']}/mobile/absencies');
     isLoading(true);
+    print('token out ${getTokenOut} name ${getNameLocal}');
+
     try {
       var stream = http.ByteStream(filePick!.openRead());
       stream.cast();
@@ -108,6 +120,7 @@ class PrecenseOutController extends GetxController {
         ..files.add(multipart)
         ..fields['type'] = 'out'
         ..fields['keperluan'] = ''
+        ..fields['nama_tempat'] = placeC.text
         ..fields['lokasi_out'] = '${placeC.text}, $address';
 
       var response = await request.send();
@@ -139,11 +152,10 @@ class PrecenseOutController extends GetxController {
                   desc: 'Absen Berhasil Di Buat'),
             ),
           );
-
-          controller.getPrecense('');
+          Get.offAll(MainPage());
+          controller.getPrecense('today');
           controller2.getProfile();
 
-          Get.offAll(MainPage());
           isLoading(false);
         } else {
           Fluttertoast.showToast(

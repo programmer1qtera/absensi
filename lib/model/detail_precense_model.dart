@@ -47,6 +47,7 @@ class Data {
     required this.isTelat,
     required this.isLembur,
     required this.isUnpaid,
+    required this.namaTempat,
     required this.lokasiIn,
     this.lokasiOut,
     required this.fotoIn,
@@ -68,6 +69,7 @@ class Data {
   bool isTelat;
   bool isLembur;
   bool isUnpaid;
+  String? namaTempat;
   String lokasiIn;
   dynamic lokasiOut;
   String fotoIn;
@@ -89,6 +91,7 @@ class Data {
         isTelat: json["is_telat"],
         isLembur: json["is_lembur"],
         isUnpaid: json["is_unpaid"],
+        namaTempat: json["nama_tempat"],
         lokasiIn: json["lokasi_in"],
         lokasiOut: json["lokasi_out"],
         fotoIn: json["foto_in"],

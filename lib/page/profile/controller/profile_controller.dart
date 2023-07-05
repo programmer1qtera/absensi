@@ -9,7 +9,7 @@ import '../../login/view/login_view.dart';
 class ProfileController extends GetxController {
   @override
   void onInit() async {
-    await GetStorage.init();
+    // await GetStorage.init();
     await getProfile();
     // TODO: implement onInit
     super.onInit();

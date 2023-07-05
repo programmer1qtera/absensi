@@ -65,6 +65,11 @@ class DetailPrecenseOutView extends StatelessWidget {
                             width: 136,
                           ),
                           DetailDescription(
+                              name: 'Tempat',
+                              description:
+                                  '${controller.detailPrecenseModel!.data.namaTempat == null ? '-' : controller.detailPrecenseModel!.data.namaTempat}',
+                              width: 130),
+                          DetailDescription(
                             name: 'Lokasi',
                             description:
                                 '${controller.detailPrecenseModel!.data.lokasiOut == null ? '-' : controller.detailPrecenseModel!.data.lokasiOut}',
